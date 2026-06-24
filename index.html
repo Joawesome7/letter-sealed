@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A Letter, Sealed</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="stage" id="stage">
+      <p class="eyebrow">A letter, sealed</p>
+
+      <div class="envelope-wrap">
+        <div class="ambient-glow"></div>
+        <div id="envelope">
+          <div class="envelope-back"></div>
+          <div class="envelope-flap">
+            <div class="seal">
+              <div class="crack" style="--rot: 8deg"></div>
+              <div class="crack" style="--rot: 52deg"></div>
+              <div class="crack" style="--rot: -38deg"></div>
+              <div class="crack" style="--rot: -80deg"></div>
+              <span class="seal-glyph">&hearts;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pin-panel" id="pinPanel">
+        <p class="pin-label">Enter the code to break the seal</p>
+        <div class="pin-dots" id="pinDots"></div>
+        <div class="keypad" id="keypad">
+          <button data-action="1" aria-label="Digit 1">1</button>
+          <button data-action="2" aria-label="Digit 2">2</button>
+          <button data-action="3" aria-label="Digit 3">3</button>
+          <button data-action="4" aria-label="Digit 4">4</button>
+          <button data-action="5" aria-label="Digit 5">5</button>
+          <button data-action="6" aria-label="Digit 6">6</button>
+          <button data-action="7" aria-label="Digit 7">7</button>
+          <button data-action="8" aria-label="Digit 8">8</button>
+          <button data-action="9" aria-label="Digit 9">9</button>
+          <div class="key-empty"></div>
+          <button data-action="0" aria-label="Digit 0">0</button>
+          <button data-action="back" aria-label="Backspace">&#9003;</button>
+        </div>
+        <p class="pin-error" id="pinError" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="letter-overlay" id="letterOverlay">
+      <div class="letter-card" id="letterCard">
+        <p class="letter-heading" id="letterHeading"></p>
+        <div class="letter-body" id="letterBody"></div>
+        <p class="letter-sign" id="letterSign"></p>
+        <div class="card-actions">
+          <!-- <button class="link-btn" id="resealBtn">Reseal the letter</button> -->
+          <!-- <button class="link-btn" id="shareBtn">Share this letter</button> -->
+        </div>
+        <!-- <div class="qr-panel" id="qrPanel" hidden>
+          <div id="qrcode"></div>
+          <p>Scan to open this letter on another device.</p>
+        </div> -->
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
