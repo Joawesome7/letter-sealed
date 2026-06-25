@@ -7,21 +7,20 @@
   // own computer.
   // ============================================================
   const CONFIG = {
-    recipientName: "Faith",
-    senderName: "Johnbert",
+    recipientName: "bravest Girl!!!",
+    senderName: "Love Jb 💞😚",
     pin: "5683", // 5683 = L-O-V-E on a phone keypad. Use any 4 digits.
     shareUrl: window.location.href,
     paragraphs: [
-      "I have been trying, for longer than I will admit, to find a way to say this without it sounding like something already written by someone else. So I will just say it plainly: thank you for being who you are in the ordinary hours, the ones where no one is watching and there is nothing to prove. The mornings that ran late, the small inconveniences you absorbed without ever mentioning them, the way you remember the things I forget about myself \u2014 none of that was owed to me, and I have not forgotten that.",
-      "What I appreciate most is not the grand gestures, though I remember those too. It is the steadiness. The way you stay curious about my days, even the ones that bore even me. The way an ordinary Tuesday becomes something worth keeping, simply because you were in it. I do not think I say often enough that being known this well, and chosen anyway, is the rarest thing I have.",
-      "So here is the truth I keep circling back to: I am grateful for you, plainly and without metaphor, today and on every day that looks nothing like today. Thank you for staying. Thank you for being easy to love.",
+      "Happpyyy birthdayyyy😙 Hinintay ko talaga ang oras ng kaarawan mo HAHAHA 17 kanaaa🥹 tanda mo na, Joke HAHAHA ito seryoso na, sa araw mo gusto ko sabihin lahat ng gusto ko sabihin sayo, gusto ko sabihin na I'm veryy veryy proud of you kasi, nakakayanan mo yung mga pagsubok na nararanasan mo, yung mga bagay na alam kong hindi mo rin kaya sabihin pero alam kong kinakaya mo, stand still loveyyy, andito lang ako and susuportahan kita sa lahat ng bagay na gusto mong gawin, at sasamahan ka sa mga pagsubok mo. Ngayon ko nasasabi na hindi lahat ng babae ay pare-parehas, kasi ikaw yung babae na hindi poproblemahin, ikaw yung babae na go sa lahat at willing magbigay ng effort para sa minamahal, at kayang mag sacrifice at ibigay yung makakaya, sobrang na appreciate ko yung bagay na kahit alam mong delikado ginagawa mo parin, at pinaparandam mo parin na may mas mahalaga (Naiiyak ako HAHAHA Joke) sobrang proud din ako sa bagay na sinasabi mong hindi mo kaya pero nakakayanan mo, sobrang hirap na pero nakikita kong kinakaya mo. Alam ko maraming learnings at challenges ang mararanasan mo in the near future pero naniniwala ako na kaya mo, at gusto ko lang ipaalala na andito ako, wag mo alalahanin na iiwan kita, diba nga, liligawan pa kita, magpapakilala pa ako sa angkan mo, kahit maging sa 2030 maghihintay ako, wag mo sukatin yung taon, kasi hindi taon yung basehan ng pagmamahal, kundi yung habang buhay na pagmamahalan.",
+
+      "On your special day, I pray na mapunonng saya ang iyong kaarawan, wag mo muna isipin yung mga bagay na kailangan tapusin, at mga problema, maging masaya ka sa iyong kaarawan, and I hope na maging successful yung plans mo in life and maging masaya ka pagnna achieve mo na. Always remember na andito lang ako lagi sa tabi mo, and laging proud sa lahat ng ginagawa mo. Hihintayin kita hanggang sa pwede kana, walang mahirap sa tunay na love hehe, and again I hope this day narandaman mong hindi lang special ang araw mo kundi araw araw kang special sa taong minamahal mo.",
     ],
   };
   // ============================================================
 
   const pinLength = CONFIG.pin.length;
   let entered = "";
-  let qrRendered = false;
 
   const pinDotsEl = document.getElementById("pinDots");
   const keypadEl = document.getElementById("keypad");
@@ -33,9 +32,28 @@
   const headingEl = document.getElementById("letterHeading");
   const bodyEl = document.getElementById("letterBody");
   const signEl = document.getElementById("letterSign");
-  const resealBtn = document.getElementById("resealBtn");
-  const shareBtn = document.getElementById("shareBtn");
-  const qrPanel = document.getElementById("qrPanel");
+  const audioEl = document.getElementById("bgMusic");
+
+  const MUSIC_TARGET_VOLUME = 0.45; // 0 to 1. Lower this if "quiet" should mean quieter.
+
+  function fadeInAudio() {
+    audioEl.volume = 0;
+    audioEl.play().catch(() => {
+      // Autoplay was blocked. Nothing breaks, the letter just plays silently.
+      // It will still play if the person interacts with the page again afterward.
+    });
+    const steps = 20;
+    const stepTime = 1500 / steps;
+    let i = 0;
+    const fade = setInterval(() => {
+      i++;
+      audioEl.volume = Math.min(
+        MUSIC_TARGET_VOLUME,
+        (MUSIC_TARGET_VOLUME * i) / steps,
+      );
+      if (i >= steps) clearInterval(fade);
+    }, stepTime);
+  }
 
   for (let i = 0; i < pinLength; i++) {
     const dot = document.createElement("span");
@@ -43,7 +61,7 @@
     pinDotsEl.appendChild(dot);
   }
 
-  headingEl.textContent = `For ${CONFIG.recipientName},`;
+  headingEl.textContent = `To my ${CONFIG.recipientName},`;
   bodyEl.innerHTML = CONFIG.paragraphs.map((p) => `<p>${p}</p>`).join("");
   signEl.innerHTML = `With love,<br>${CONFIG.senderName}`;
 
@@ -65,6 +83,7 @@
   function tryUnseal() {
     if (entered === CONFIG.pin) {
       pinErrorEl.textContent = "";
+      fadeInAudio();
       runUnsealSequence();
     } else {
       shakeAndClear();
@@ -110,34 +129,4 @@
     }, 1300);
     setTimeout(() => pinPanelEl.classList.add("hidden"), 1300);
   }
-
-  resealBtn.addEventListener("click", () => {
-    letterOverlayEl.classList.remove("visible");
-    letterCardEl.classList.remove("show");
-    qrPanel.hidden = true;
-    shareBtn.textContent = "Share this letter";
-    setTimeout(() => {
-      envelopeEl.classList.remove("cracking", "opening", "sealed-away");
-      pinPanelEl.classList.remove("hidden");
-      entered = "";
-      updateDots();
-    }, 350);
-  });
-
-  shareBtn.addEventListener("click", () => {
-    const wasHidden = qrPanel.hidden;
-    qrPanel.hidden = !wasHidden;
-    shareBtn.textContent = wasHidden ? "Hide QR code" : "Share this letter";
-    if (wasHidden && !qrRendered) {
-      qrRendered = true;
-      new QRCode(document.getElementById("qrcode"), {
-        text: CONFIG.shareUrl,
-        width: 152,
-        height: 152,
-        colorDark: "#2B2418",
-        colorLight: "#EDE1C9",
-        correctLevel: QRCode.CorrectLevel.M,
-      });
-    }
-  });
 })();

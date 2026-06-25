@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Swap "song.mp3" for your real audio file. No visible player by design. -->
+    <audio id="bgMusic" src="audio/song.mp3" loop preload="auto"></audio>
+
     <div class="stage" id="stage">
       <p class="eyebrow">A letter, sealed</p>
 
@@ -52,18 +55,58 @@
         <p class="letter-heading" id="letterHeading"></p>
         <div class="letter-body" id="letterBody"></div>
         <p class="letter-sign" id="letterSign"></p>
-        <div class="card-actions">
-          <!-- <button class="link-btn" id="resealBtn">Reseal the letter</button> -->
-          <!-- <button class="link-btn" id="shareBtn">Share this letter</button> -->
+
+        <!--
+      Three polaroid placeholders. To drop in a real photo later,
+      either add a background-image to .polaroid-photo inline:
+        style="background-image:url('photo1.jpg'); background-size:cover;"
+      or replace the div with an <img src="photo1.jpg" alt="...">
+      sized to fill .polaroid-photo.
+    -->
+        <div class="polaroid-strip" id="polaroidStrip">
+          <figure class="polaroid polaroid--1">
+            <div
+              class="polaroid-photo"
+              style="
+                background-image: url(&quot;images/photo1.jpg&quot;);
+                background-size: cover;
+              "
+              data-slot="1"
+            >
+              <span class="placeholder-label">Photo 1</span>
+            </div>
+            <figcaption class="polaroid-caption">&mdash;</figcaption>
+          </figure>
+          <figure class="polaroid polaroid--2">
+            <div
+              class="polaroid-photo"
+              style="
+                background-image: url(&quot;images/photo2.jpg&quot;);
+                background-size: cover;
+              "
+              data-slot="2"
+            >
+              <span class="placeholder-label">Photo 2</span>
+            </div>
+            <figcaption class="polaroid-caption">&mdash;</figcaption>
+          </figure>
+          <figure class="polaroid polaroid--3">
+            <div
+              class="polaroid-photo"
+              style="
+                background-image: url(&quot;images/photo3.jpg&quot;);
+                background-size: cover;
+              "
+              data-slot="3"
+            >
+              <span class="placeholder-label">Photo 3</span>
+            </div>
+            <figcaption class="polaroid-caption">&mdash;</figcaption>
+          </figure>
         </div>
-        <!-- <div class="qr-panel" id="qrPanel" hidden>
-          <div id="qrcode"></div>
-          <p>Scan to open this letter on another device.</p>
-        </div> -->
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
